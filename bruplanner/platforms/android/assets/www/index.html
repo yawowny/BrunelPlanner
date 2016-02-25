@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+
+	<html>
+		<head>
+			<title>PhoneGap Demo</title>
+			<meta charset="utf-8" />
+	        <meta name="format-detection" conteChoose Browser.sublime-buildnt="telephone=no" />
+	        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+	        <meta name="viewport" content="user-scalable=yes, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+	        <!-- <meta name="viewport" content="user-scalable=yes, initial-scale=1.0, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />  -->
+        	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+			<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+			<script type="text/javascript" charset="utf-8" src="cordova_plugins.js"></script>
+			<script type="text/javascript" charset="utf-8" src="jquery/jquery-1.11.0.min.js"></script>
+			<script type="text/javascript" charset="utf-8" src="jquery/jquery.mobile-1.4.0.min.js"></script>
+			<link rel="stylesheet" type="text/css" href="jquery/css/jquery.mobile-1.4.0.min.css"/>
+			<link rel="stylesheet" type="text/css" href="css/index.css" />
+			<script type="text/javascript" src="phonegap.js"></script>
+        	<script type="text/javascript" src="js/index.js"></script>
+        	<script type="text/javascript" charset="utf-8" src="js/timetable.js"></script>
+        	<!---------------------------------- tutorial --------------------------------------->
+        	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        	
+        	<!---
+        	<script type="text/javascript" src="jquery.gmap.js"></script>
+		    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+		    <script src="http://maps.gstatic.com/intl/en_us/mapfiles/api-3/16/3/main.js" type="text/javascript"></script>
+		    <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/1.0/src/infobox_packed.js"></script>
+		    ---->
+			<script type="text/javascript" charset="utf-8">
+			//*********************************************************
+			// Wait for Cordova to Load
+			//*********************************************************
+			document.addEventListener("deviceready", onDeviceReady, false);
+			
+			function onDeviceReady() {
+				tablecreate ();
+				insertservices ();
+				insertstaff ();
+				insertschools ();
+				insertbuildings ();
+				navigator.geolocation.getCurrentPosition(onSuccess, onError);
+				
+			}
+			
+			 function onSuccess(position) {
+			        var element = document.getElementById('geolocation');
+			        element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
+			                            'Longitude: '          + position.coords.longitude             + '<br />' +
+			                            'Altitude: '           + position.coords.altitude              + '<br />' +
+			                            'Accuracy: '           + position.coords.accuracy              + '<br />' +
+			                            'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
+			                            'Heading: '            + position.coords.heading               + '<br />' +
+			                            'Speed: '              + position.coords.speed                 + '<br />' +
+			                            'Timestamp: '          + position.timestamp                    + '<br />';
+			    }
+
+			    // onError Callback receives a PositionError object
+			    //
+			    function onError(error) {
+			        alert('code: '    + error.code    + '\n' +
+			              'message: ' + error.message + '\n');
+			    }
+			
+			function getLocation()
+			  {
+			  if (navigator.geolocation)
+			    {
+			    navigator.geolocation.getCurrentPosition(showPosition);
+			    }
+			  else{alert ("Geolocation is not supported by this browser."); }
+			  }
+			function showPosition(position)
+			  {
+				alert ("Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude); 
+			  }
+			
+			</script>
+		</head>
+		<body>
+			<!---------------------------------- Main Page --------------------------------------->
+			<div data-role="page" id="main">
+			
+				<div data-role="panel" id="myPanel"> 
+				    <h2>More Sources.</h2>
+				    <p>To hide: Swipe left or tap outside</p>
+				    
+				    <ul data-role="listview" data-inset="true">
+				    	<li>
+				        	<a href="https://evision.brunel.ac.uk/urd/sits.urd/run/siw_lgn?STU" class="ui-link-inherit"  rel="external" target="foo">
+				        	<h2>eVision</h2>
+				        	<p>Your Academic Profile</p>
+				        	</a>
+				      	</li>
+				      	<li>
+				        	<a href="http://www.brunelstudents.com/" class="ui-link-inherit" rel="external" target="_blank">
+				        	<h2>UBS</h2>
+				        	<p>Students Union Website</p>
+				        	</a>
+				      	</li>
+				      	<li>
+				        	<a href="https://intra.brunel.ac.uk/" class="ui-link-inherit" rel="external" target="_blank">
+				        	<h2>IntraBrunel</h2>
+				        	<p>The portal for information, news and events</p>
+				        	</a>
+				      	</li>
+				      	<li>
+				        	<a href="http://ssp-credit.brunel.ac.uk/safecom/webuser.dll/login" class="ui-link-inherit" rel="external" target="_blank">
+				        	<h2>Print Credit</h2>
+				        	<p>Check printing or Add credit using your network login details "e.g. mk10mkk"</p>
+				        	</a>
+				      	</li>
+				      	<li>
+				        	<a href="http://www.brunel.ac.uk/courses/paying-your-fees" class="ui-link-inherit" rel="external" target="_blank">
+				        	<h2>Payments</h2>
+				        	<p>Information on making fees and accommodation payments online</p>
+				        	</a>
+				      	</li>
+				      	<li>
+				        	<a href="https://connect.brunel.ac.uk/" class="ui-link-inherit" rel="external" target="_blank">
+				        	<h2>Connect</h2>
+				        	<p>Connect your computer and wireless device to the University network</p>
+				        	</a>
+				      	</li>
+				      	<li>
+				        	<a href="https://www.facebook.com/bruneluniversity" class="ui-link-inherit" rel="external" target="_blank">
+				        	<h2>Facebook</h2>
+				        	<p>Brunel University's Facebook page</p>
+				        	</a>
+				      	</li>
+				      	<li>
+				        	<a href="https://twitter.com/bruneluni" class="ui-link-inherit" rel="external" target="_blank">
+				        	<h2>Twitter</h2>
+				        	<p>Brunel University's twitter page</p>
+				        	</a>
+				      	</li>		      
+				    </ul>
+				 </div> 
+				  
+				<div data-role="header" data-position="fixed">
+					<h1>Online</h1>
+				</div>
+				
+				<div data-role="content">
+					<!-- Write current week number  -->
+					<h3 style="text-align:center; color:blue;"> <script>document.write(currentweek());</script></h3>
+					<ul data-role="listview" data-inset="true">
+				      <li>
+				        <a href="https://blackboard.brunel.ac.uk/" class="ui-link-inherit" rel="external" target="_blank">
+				        <img src="img/buttons/bblearn.png">
+				        <h2>Blackboard Learn</h2>
+				        <p>Course and other academic content.</p>
+				        </a>
+				      </li>
+				      <li>
+				        <a href="http://www.brunel.ac.uk/" class="ui-link-inherit" rel="external" target="_blank">
+				        <img src="img/buttons/brunel.png">
+				        <h2>Brunel Website</h2>
+				        <p>All about Brunel University.</p>
+				        </a>
+				      </li>
+				      <li>
+				        <a href="https://www.google.com/a/my.brunel.ac.uk/ServiceLogin?service=mail&passive=true&rm=false&continue=https://mail.google.com/a/my.brunel.ac.uk/&ss=1&ltmpl=default&ltmplcache=2" class="ui-link-inherit" rel="external" target="_blank">
+				        <img src="img/buttons/email-icon.png">
+				        <h2>Email</h2>
+				        <p>Check your email</p>
+				        </a>
+				      </li>
+				      <li>
+				        <a href="http://libguides.brunel.ac.uk/mobile/4219" class="ui-link-inherit" rel="external" target="_blank">
+				        <img src="img/buttons/library.png">
+				        <h2>Library</h2>
+				        <p>Brunel library catalogue</p>
+				        </a>
+				      </li>	
+				      <li>
+				        <a href="https://teaching.brunel.ac.uk/SWS-1314/login.aspx" class="ui-link-inherit" rel="external" target="_blank">
+				        <img src="img/buttons/text_calendar.png">
+				        <h2>Timetable</h2>
+				        <p>Onlie timetable link</p>
+				        </a>
+				      </li>
+				      <li>
+				        <a href="#myPanel" >
+				        <img src="img/buttons/edit_profile.png">
+				        <h2>More</h2>
+				        <p>Show more online sources</p>
+				        </a>
+				      </li>		      
+				    </ul>
+				    
+				    <ul>
+				    
+				    </ul>
+				</div><!-- /content -->
+				
+				<div data-role="footer" data-id="foo1" data-position="fixed">		
+					<div data-role="navbar" data-iconpos="left">
+						<ul>
+							<li><a href="#main" data-transition="none" data-role="button" data-icon="star" class="ui-btn-active ui-state-persist">Online</a></li>
+							<li><a href="#offline" data-transition="none" data-role="button" data-icon="star">Offline</a></li>
+							<li><a href="#phonebook" data-transition="none" data-role="button" data-icon="star">Phonebook</a></li>
+						</ul>
+					</div><!-- /navbar -->
+				</div><!-- /footer -->
+			</div><!-- / page -->
+			
+			<!---------------------------------- Offline Services Page --------------------------------------->
+			<div data-role="page" id="offline">
+				<div data-role="header">
+					<h1>Offline Information</h1>
+				</div>
+				
+				<div data-role="content">
+					
+					<ul data-role="listview" data-inset="true">
+				      <li>
+				        <a href="#" id=listmyttable>
+				        <img src="img/buttons/timetable.png">
+				        <h2>My Timetable</h2>
+				        <p>Add/View/Edit your timetable</p>
+				        </a>
+				      </li>
+				      <li>
+				        <a href="#" id="listmyreminders">
+				        <img src="img/buttons/reminders.png">
+				        <h2>Reminders</h2>
+				        <p>Set assignment and event reminders</p>
+				        </a>
+				      </li>
+				      <li>
+				        <a href="#" id=listbuildings>
+				        <img src="img/buttons/buildings.png">
+				        <h2>Buildings</h2>
+				        <p>Find places around campus</p>
+				        </a>
+				      </li>
+				      <!--  <li>
+						<a href="#home">
+						<img src="img/buttons/open.png">
+						<h2>Opening Times</h2>
+						<p>Opening times for stores and buildings</p>
+						</a>
+				      </li>	-->		      
+				    </ul>
+				    
+				    <p id="geolocation">Finding geolocation...</p>
+				</div>
+				
+				<div data-role="footer" data-id="foo1" data-position="fixed">		
+					<div data-role="navbar" data-iconpos="left">
+						<ul>
+							<li><a href="#main" data-transition="none" data-role="button" data-icon="star">Online</a></li>
+							<li><a href="#offline" data-transition="none" data-role="button" data-icon="star" class="ui-state-persist">Offline</a></li>
+							<li><a href="#phonebook" data-transition="none" data-role="button" data-icon="star">Phonebook</a></li>
+						</ul>
+					</div><!-- /navbar -->
+				</div><!-- /footer -->
+			</div><!-- / page -->
+			
+			
+			<!---------------------------------- Timetable Page --------------------------------------->
+			<div data-role="page" id="mytimetable">
+				
+				<div data-role="header">
+					<a href="#offline" class="ui-btn ui-corner-all ui-shadow ui-btn-icon-notext ui-icon-arrow-l" data-direction="reverse">Offline</a>
+					<h1>My Timetable</h1>
+					<a href="#newtt" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-plus ui-btn-icon-notext" data-transition="pop">Add</a>
+				</div>
+				
+				<div data-role="content">	
+					<ul id="ClassList" data-role="listview" data-filter="true" data-autodividers="true" data-inset="true" >
+				
+					</ul>
+				</div>
+				
+				<!------ Popup Form for adding a new timetable ------>
+				<div data-role="popup" id="newtt" class="ui-content ui-corner-all" data-dismissible="false" data-position-to="window">
+					<div data-role="header">
+						<a href="#myttable" data-direction="reverse" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-left"></a>
+						<h1></h1>
+					</div>
+					
+					<form>	
+	 	 					<fieldset class="ui-field-contain">
+						        <label for="ModCode">Module Code:</label>
+						        <input type=text name="ModCode" id="ModCode" placeholder="EE3055..."></textarea>
+						        <label for="ModName">Module Name:</label>
+						        <input type=text name="ModName" id="ModName" placeholder="E-Business..."></textarea>
+						        <label for="Room">Room:</label>
+						        <input type=text name="Room" id="Room" placeholder="LC111..."></textarea>
+						        <label for="Week">Week(s):</label>
+						        <input type=text name="Week" id="Week" placeholder="1, 2-4, Odd, Even..."></textarea>
+						    </fieldset>
+						    
+						    <fieldset class="ui-field-contain">
+							    <label for="Day">Select Day</label>
+							    <select name="Day" id="Day" data-mini="true">
+							      <option value="Monday">Monday</option>
+							      <option value="Tuesday">Tuesday</option>
+							      <option value="Wednesday">Wednesday</option>
+							      <option value="Thursday">Thursday</option>
+							      <option value="Friday">Friday</option>
+							    </select>
+	 	 					</fieldset>
+						    
+						    <fieldset data-type="vertical" class="ui-field-contain">
+							    <label for="Start">Start Time: </label>
+							    <select name="Start" id="Start" data-mini="true">
+							      <option value="08:00">8am</option>
+							      <option value="09:00">9am</option>
+							      <option value="10:00">10am</option>
+							      <option value="11:00">11am</option>
+							      <option value="12:00">12pm</option>
+							      <option value="13:00">1pm</option>
+							      <option value="14:00">2pm</option>
+							      <option value="15:00">3pm</option>
+							      <option value="16:00">4pm</option>
+							      <option value="17:00">5pm</option>
+							      <option value="18:00">6pm</option>
+							      <option value="19:00">7pm</option>
+							      <option value="20:00">8pm</option>
+							    </select>
+							    
+							    <label for="Finish">End Time: </label>
+							    <select name="Finish" id="Finish" data-mini="true">
+							      <option value="09:00">9am</option>
+							      <option value="10:00">10am</option>
+							      <option value="11:00">11am</option>
+							      <option value="12:00">12pm</option>
+							      <option value="13:00">1pm</option>
+							      <option value="14:00">2pm</option>
+							      <option value="15:00">3pm</option>
+							      <option value="16:00">4pm</option>
+							      <option value="17:00">5pm</option>
+							      <option value="18:00">6pm</option>
+							      <option value="19:00">7pm</option>
+							      <option value="20:00">8pm</option>
+							      <option value="21:00">9pm</option>
+							    </select>
+	 	 					</fieldset>
+						    
+						     <fieldset class="ui-field-contain" >
+							    <label for="Type">Select Type</label>
+							    <select name="Type" id="Type" data-mini="true">
+							      <option value="Lec">Lecture</option>
+							      <option value="Lab">Lab</option>
+							      <option value="Sem">Seminar</option>
+							      <option value="Sup">Support</option>
+							    </select>
+	 	 					</fieldset>
+	 	 					
+	 	 					<a href=#mytimetable class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check" data-direction="reverse" id="insertTT">Add The Class </a>
+				    </form>
+				    		
+				</div><!-- / adding popup -->
+			</div><!-- / timetable page -->
+			
+			
+			<!---------------------------------- Reminder Page --------------------------------------->
+			<div data-role="page" id="myreminders">
+				
+				<div data-role="header">
+					<a href="#offline" class="ui-btn ui-corner-all ui-shadow ui-btn-icon-notext ui-icon-arrow-l" data-direction="reverse">Offline</a>
+					<h1>My Reminders</h1>
+					<a href="#newreminder" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-plus ui-btn-icon-notext" data-transition="pop">Add</a>
+				</div>
+				
+				<div data-role="content">
+					<ul id="ReminderList" data-role="listview" data-filter="true" data-autodividers="true" data-inset="true" >
+				
+					</ul>
+				</div>
+				
+				<!------ Popup Form for adding a new Reminder ------>
+				<div data-role="popup" id="newreminder" class="ui-content ui-corner-all" data-dismissible="false" data-position-to="window">
+					<div data-role="header">
+						<a href="#myreminders" data-direction="reverse" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-left"></a>
+						<h1></h1>
+					</div>
+					
+					<form>
+				        <fieldset class="ui-field-contain">
+					        <label for="Title">Title:</label>
+					        <input type=text name="Title" id="Title" placeholder="Reminder Title/Name..."></textarea>
+					        <label for="Description">Description:</label>
+					        <textarea type=text name="Description" id="Description" placeholder="Reminder description/Note..."></textarea>
+					    </fieldset>
+					    
+					    <fieldset class="ui-field-contain">
+					        <label for="DueDate">Due Date:</label>
+					        <input type=date name="DueDate" id="DueDate" data-role="date" data-inline="true"></textarea>
+					        <label for="DueTime">Time Due:</label>
+					        <input type=time name="DueTime" id="DueTime"></textarea>
+					    </fieldset>
+					    <span></span>
+						    
+				        <a href=#mytimetable class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check" data-direction="reverse" id="insertReminder">Add Reminder</a>
+				    </form>		
+				</div><!-- / adding popup -->
+			</div><!-- / Reminder page -->
+			
+			
+			<!---------------------------------- Buildings List Page --------------------------------------->
+			<div data-role="page" id="mybuildings">
+				
+				<div data-role="header" style="overflow:hidden;">
+					<a href="#offline" class="ui-btn ui-corner-all ui-shadow ui-btn-icon-notext ui-icon-arrow-l">Offline</a>
+					<h1>Locations</h1>
+					<div data-role="navbar">
+				        <ul>
+				            <li><a href="#" data-transition="none" class="ui-state-persist">List</a></li>
+				            <li><a href="#mycampusmap" data-transition="none">Campus</a></li>
+				        </ul>
+				    </div><!-- /navbar -->
+				</div>
+				
+				<div data-role="content">
+					<ul id=showbuilding data-role="listview" data-autodividers="true" data-filter="true" data-inset="true" >
+					
+					</ul>
+				</div>
+				
+			</div><!-- / Buildings page -->
+			
+			
+			<!---------------------------------- Phonebook Page --------------------------------------->
+			<div data-role="page" id="phonebook">
+				<div data-role="header">
+					<h1>Phonebook</h1>
+				</div>
+				
+				<div data-role="content">
+					<ul data-role="listview" data-inset="true">
+						<li>
+							<a href="#" id="listschools">
+							<img src="img/buttons/schools.png">
+							<h2>Academic Schools</h2>
+							<p>Schools contact details</p>
+							</a>
+						</li>		
+						<li>
+							<a href="#" id="liststaff">
+							<img src="img/buttons/staff1.png">
+							<h2>Staff</h2>
+							<p>University staff contact details</p>
+							</a>
+						</li>
+						<li>
+							<a href="#" id="listservices">
+							<img src="img/buttons/services.png">
+							<h2>Services</h2>
+							<p>Services contact details</p>
+							</a>
+						</li>	      
+				    </ul>
+				</div>
+				
+				<div data-role="footer" data-id="foo1" data-position="fixed">		
+					<div data-role="navbar" data-iconpos="left">
+						<ul>
+							<li><a href="#main" data-transition="none" data-role="button" data-icon="star">Online</a></li>
+							<li><a href="#offline" data-transition="none" data-role="button" data-icon="star">Offline</a></li>
+							<li><a href="#phonebook" data-transition="none" data-role="button" data-icon="star" class="ui-state-persist">Phonebook</a></li>
+						</ul>
+					</div><!-- /navbar -->
+				</div><!-- /footer -->
+			</div><!-- / page -->
+			
+			
+			<!---------------------------------- Schools Page --------------------------------------->
+			<div data-role="page" id="myschools">
+				
+				<div data-role="header">
+					<a href="#phonebook" class="ui-btn ui-corner-all ui-shadow ui-btn-icon-notext ui-icon-arrow-l">Phonebook</a>
+					<h1>Schools</h1>
+				</div>
+				
+				<div data-role="content">
+					<ul data-role="listview" data-filter="true" data-inset="true"" >
+					
+					</ul>
+				</div>
+				
+			</div><!-- / Schools page -->
+			
+			
+			<!---------------------------------- Staff Page --------------------------------------->
+			<div data-role="page" id="mystaff">
+				
+				<div data-role="header">
+					<a href="#phonebook" class="ui-btn ui-corner-all ui-shadow ui-btn-icon-notext ui-icon-arrow-l">Phonebook</a>
+					<h1>Staff</h1>
+				</div>
+				
+				<div data-role="content">
+					<ul data-role="listview" data-filter="true" data-inset="true" data-autodividers="true" >
+					
+					</ul>
+				</div>
+				
+			</div><!-- / Staff page -->
+			
+			
+			<!---------------------------------- Services Page --------------------------------------->
+			<div data-role="page" id="myservices">
+				
+				<div data-role="header">
+					<a href="#phonebook" class="ui-btn ui-corner-all ui-shadow ui-btn-icon-notext ui-icon-arrow-l">Phonebook</a>
+					<h1>Services</h1>
+				</div>
+				
+				<div data-role="content">
+					<ul data-role="listview" data-filter="true" data-inset="true" data-autodividers="true" >
+					
+					</ul>
+				</div>
+				
+			</div><!-- / services page -->
+			
+			
+			<!---------------------------------- Stores Page TODO--------------------------------------->
+			<div data-role="page" id="mystores">
+				
+				<div data-role="header">
+					<a href="#phonebook" class="ui-btn ui-corner-all ui-shadow ui-btn-icon-notext ui-icon-arrow-l">Phonebook</a>
+					<h1>Shops</h1>
+				</div>
+				
+				<div data-role="content">
+					<ul data-role="listview" data-filter="true" data-inset="true" data-autodividers="true" >
+					
+					</ul>
+				</div>
+				
+			</div><!-- / Stores page -->
+			
+			
+		
+		<!---------------------------------- TESTING --------------------------------------->
+		<div data-role=page id=home>
+		  <div data-role=header>
+		    <h1>Home</h1>
+		  </div>
+		
+		  <div data-role=content>
+		    <span> Latitude : </span> <input type=text id=lat />
+		    <span> Longitude : </span> <input type=text id=lng />
+		    <a data-role=button id=btn>Display map</a>
+		  </div>
+		</div>
+		
+		<div data-role=page id=win2 data-add-back-btn=true>
+		  <div data-role=header>
+		    <h1>Window 2</h1>
+		  </div>
+		
+		  <div data-role=content>
+		  </div>
+		</div>
+		
+		</body>
+	</html>
+	
